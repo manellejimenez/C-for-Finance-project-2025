@@ -6,7 +6,7 @@ public:
 
     double payoff(double z) const
     {
-        return (z <= getStrike()) ? (z - getStrike()) : 0.0;
+        return (z >= getStrike()) ? (z - getStrike()) : 0.0;
     }
 
     optionType GetOptionType() const
@@ -14,3 +14,4 @@ public:
         return CALL;
     }
 };
+
