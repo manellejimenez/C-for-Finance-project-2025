@@ -1,21 +1,18 @@
 #pragma once
-#include <vector>
+#include <iostream>
+using namespace std;
 
-class Option {
+class Option
+{
+private:
+    double _expiry;
+
 public:
-    Option(double K);
-    virtual ~Option() = default;
+    Option();
+    Option(double e);
+    virtual ~Option();
 
-    virtual double payoff(double St) const = 0;
+    double getExpiry() const;
 
-    virtual double payoffPath(const std::vector<double>& path) const {
-        return payoff(path.back()); // European par défaut
-    }
-
-    virtual bool isAsianOption() const { return false; }
-
-    double getStrike() const { return K; }
-
-protected:
-    double K;
+    virtual double payoff(double z) const = 0;
 };
