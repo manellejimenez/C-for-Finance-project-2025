@@ -19,3 +19,12 @@ double Option::getExpiry() const
     return _expiry;
 }
 
+bool Option::isAmericanOption() {
+    // Par défaut, une option n'est pas américaine (Partie 1 & 2)
+    return false;
+}
+
+Option::~Option() {
+    // Destructeur vide, mais nécessaire pour le nettoyage correct des classes filles
+}
+
