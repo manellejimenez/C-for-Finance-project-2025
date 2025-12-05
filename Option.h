@@ -4,7 +4,7 @@ using namespace std;
 
 class Option
 {
-protected:
+private:
     double _expiry;
 
 public:
@@ -15,4 +15,11 @@ public:
     double getExpiry() const;
 
     virtual double payoff(double z) const = 0;
+
+    // Ajout pour la Partie 4
+    virtual bool isAmericanOption() {
+        return false;
+    }
+    virtual ~Option() {}
 };
+
