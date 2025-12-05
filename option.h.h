@@ -1,5 +1,5 @@
-#ifndef PARTIE_2_H_INCLUDED
-#define PARTIE_2_H_INCLUDED
+#ifndef BINARY_TREE_H_INCLUDED
+#define BINARY_TREE_H_INCLUDED
 #include <vector>
 #include <iostream>
 #include <iomanip>
@@ -18,5 +18,6 @@ public:
     void display() const;
     int depth() const;
 };
+
 
 #endif // PARTIE_2_H_INCLUDED
