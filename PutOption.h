@@ -1,15 +1,11 @@
 #pragma once
+#include "EuropeanVanillaOption.h"
+
 class PutOption : public EuropeanVanillaOption
 {
-    PutOption(double expiry, double strike) : EuropeanVanillaOption(expiry, strike) {}
+public:
+    PutOption(double expiry, double strike);
 
-    double payoff(double z) const
-    {
-        return (z <= getStrike()) ? (getStrike() - z) : 0.0;
-    }
-
-    optionType GetOptionType() const
-    {
-        return PUT;
-    }
+    double payoff(double z) const override;
+    optionType GetOptionType() const override;
 };
