@@ -1,21 +1,33 @@
 #include "EuropeanVanillaOption.h"
-#include <stdexcept>
+#include <algorithm> // Pour std::max
 
-
-EuropeanVanillaOption::EuropeanVanillaOption() : Option(), _strike(0.0) {}
-
-
-EuropeanVanillaOption::EuropeanVanillaOption(double expiry, double strike)
-    : Option(expiry), _strike(strike)
-{
-    if (expiry < 0 || strike < 0)
-        throw std::invalid_argument("Expiry et strike doivent être non-négatifs");
+// --- Mère ---
+EuropeanVanillaOption::EuropeanVanillaOption(double expiry, double strike) 
+    : Option(expiry), _strike(strike) {
 }
 
-
-double EuropeanVanillaOption::getStrike() const
-{
+double EuropeanVanillaOption::getStrike() const {
     return _strike;
+}
+
+// --- CallOption (Vanilla) ---
+CallOption::CallOption(double expiry, double strike) 
+    : EuropeanVanillaOption(expiry, strike) {
+}
+
+double CallOption::payoff(double z) {
+    // Max(S - K, 0)
+    return std::max(z - getStrike(), 0.0);
+}
+
+// --- PutOption (Vanilla) ---
+PutOption::PutOption(double expiry, double strike) 
+    : EuropeanVanillaOption(expiry, strike) {
+}
+
+double PutOption::payoff(double z) {
+    // Max(K - S, 0)
+    return std::max(getStrike() - z, 0.0);
 }
 
 
