@@ -39,10 +39,5 @@ int main() {
 
     return 0;
 
-    std::cout << "Asian Put Option:" << std::endl;
-std::cout << "Prix estimé: " << putPricer() << std::endl;
-
-auto CI_put = putPricer.confidenceInterval();
-std::cout << "95% CI: [" << CI_put[0] << ", " << CI_put[1] << "]" << std::endl;
 
 }
