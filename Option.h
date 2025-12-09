@@ -16,11 +16,12 @@ public:
 
     virtual double payoff(double z) const = 0;
 
-    / Nouvelle méthode pour la partie 4 (virtuelle simple)
+    // Nouvelle méthode pour la partie 4 (virtuelle simple)
     virtual bool isAmericanOption();
 
     // Destructeur virtuel (essentiel pour l'héritage)
     virtual ~Option();
 };
+
 
 
