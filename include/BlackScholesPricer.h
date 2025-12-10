@@ -32,3 +32,5 @@ public:
     // Méthode delta
     double delta() const;
 };
+
+
