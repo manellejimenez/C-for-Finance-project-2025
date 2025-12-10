@@ -1,5 +1,5 @@
 #include <iostream>
-#include <iomanip> // Pour afficher les chiffres après la virgule
+#include <iomanip> // Pour afficher les chiffres aprÃ¨s la virgule
 #include <cmath>
 #include "EuropeanDigitalOption.h"
 #include "AmericanOption.h"
@@ -10,13 +10,13 @@
 #include "BlackScholesPricer.h"
 
 int main() {
-    //Paramètres
+    //ParamÃ¨tres
     double S0 = 100.0;   // Stock Price
     double K  = 101.0;   // Strike
-    double T  = 5.0;     // Maturité
+    double T  = 5.0;     // MaturitÃ©
     int    N  = 5;       // Profondeur (Steps)
 
-    // Paramètres explicites "CRR Params"
+    // ParamÃ¨tres explicites "CRR Params"
     double U = 0.05;
     double D = -0.045;
     double R = 0.01;
@@ -80,7 +80,7 @@ int main() {
     std::cout << "Resultat Code : " << resEuroPut << std::endl;
     std::cout << "-----------------------------------" << std::endl;
 
-    // Paramètres
+    // ParamÃ¨tres
     double S_BS = 100.0;
     double K_BS = 101.0;
     double T_BS = 1.0;
