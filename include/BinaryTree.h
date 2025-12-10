@@ -13,7 +13,7 @@ public:
     // Constructeur
     BinaryTree() : _depth(0) {}
 
-    // Définit la profondeur et redimensionne les vecteurs
+    // DÃ©finit la profondeur et redimensionne les vecteurs
     void setDepth(int depth) {
         _depth = depth;
         _tree.resize(_depth + 1);
