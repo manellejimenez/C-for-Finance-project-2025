@@ -1,6 +1,6 @@
-#pragma once
 #include <iostream>
-using namespace std;
+
+enum class optionType { CALL, PUT };
 
 class Option
 {
@@ -10,15 +10,15 @@ private:
 public:
     Option();
     Option(double e);
-    virtual ~Option();
 
     double getExpiry() const;
 
+    // MÃ©thode virtuelle pure (rend la classe abstraite)
     virtual double payoff(double z) const = 0;
 
-    // Nouvelle méthode pour la partie 4 (virtuelle simple)
+    // Nouvelle mÃ©thode pour la partie 4 (virtuelle simple)
     virtual bool isAmericanOption();
 
-    // Destructeur virtuel (essentiel pour l'héritage)
+    // Destructeur virtuel
     virtual ~Option();
 };
