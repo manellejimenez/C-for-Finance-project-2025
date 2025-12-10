@@ -5,20 +5,20 @@
 
 // Constructeur Partie 2
 CRRPricer::CRRPricer(Option* option, int depth, double asset_price, double up, double down, double interest_rate)
-    : _option(option), _depth(depth), _asset_price(asset_price),
+    // ORDRE MODIFIÃ‰ POUR CORRESPONDRE AU HEADER ET SUPPRIMER LES WARNINGS
+    : _depth(depth), _asset_price(asset_price), _option(option),
       _up(up), _down(down), _interest_rate(interest_rate), _computed(false) {
 
-    // Vérification d'arbitrage (consigne PDF page 4)
     if (_down <= -1 || _down >= _interest_rate || _interest_rate >= _up) {
         throw std::runtime_error("Arbitrage opportunity: Check parameters D < R < U");
     }
 }
 
-// Constructeur Partie 4 (Black-Scholes approximation)
+// Constructeur Partie 4
 CRRPricer::CRRPricer(Option* option, int depth, double asset_price, double r, double volatility)
-    : _option(option), _depth(depth), _asset_price(asset_price), _computed(false) {
+    // ORDRE MODIFIÃ‰ ICI AUSSI
+    : _depth(depth), _asset_price(asset_price), _option(option), _computed(false) {
 
-    // Formules Page 12 du PDF
     double h = option->getExpiry() / depth;
     double drift = r + (volatility * volatility) / 2.0;
 
@@ -28,17 +28,18 @@ CRRPricer::CRRPricer(Option* option, int depth, double asset_price, double r, do
 }
 
 void CRRPricer::compute() {
+    // Si votre classe d'arbre s'appelle 'TriangleTree' ou 'BinaryTree', assurez-vous que le nom est bon
     _tree.setDepth(_depth);
     _exercise_tree.setDepth(_depth);
 
-    // 1. Initialisation des feuilles (à maturité N)
+    // 1. Initialisation des feuilles (Ã  maturitÃ© N)
     for (int i = 0; i <= _depth; i++) {
         // S(N, i) = S0 * (1+U)^i * (1+D)^(N-i)
         double spot = _asset_price * std::pow(1 + _up, i) * std::pow(1 + _down, _depth - i);
         double val = _option->payoff(spot);
 
         _tree.setNode(_depth, i, val);
-        // À la fin, on exerce si on gagne de l'argent
+        // Ã€ la fin, on exerce si on gagne de l'argent
         _exercise_tree.setNode(_depth, i, val > 0);
     }
 
@@ -51,11 +52,14 @@ void CRRPricer::compute() {
             // Valeur de continuation (si on garde l'option)
             double val_up = _tree.getNode(n + 1, i + 1);
             double val_down = _tree.getNode(n + 1, i);
+
+            // Actualisation
             double continuation_value = (q * val_up + (1 - q) * val_down) / (1 + _interest_rate);
 
-            // Gestion Américaine vs Européenne
+            // Gestion AmÃ©ricaine vs EuropÃ©enne
             if (_option->isAmericanOption()) {
-                // Valeur intrinsèque (si on exerce maintenant)
+                // Valeur intrinsÃ¨que (si on exerce maintenant)
+                // Recalcul du spot Ã  cette date et ce noeud
                 double current_spot = _asset_price * std::pow(1 + _up, i) * std::pow(1 + _down, n - i);
                 double intrinsic_value = _option->payoff(current_spot);
 
@@ -67,9 +71,9 @@ void CRRPricer::compute() {
                     _exercise_tree.setNode(n, i, false); // FALSE: on attend
                 }
             } else {
-                // Cas Européen simple
+                // Cas EuropÃ©en simple
                 _tree.setNode(n, i, continuation_value);
-                _exercise_tree.setNode(n, i, false); // Pas d'exercice anticipé possible
+                _exercise_tree.setNode(n, i, false); // Pas d'exercice anticipÃ© possible
             }
         }
     }
@@ -87,6 +91,8 @@ bool CRRPricer::getExercise(int n, int i) {
 }
 
 double CRRPricer::factorial(int n) {
+    // Attention : double a une prÃ©cision limitÃ©e pour les grands factoriels
+    // Pour n > 170, cela renverra "inf", mais pour un depth raisonnable (ex: 100), Ã§a peut passer.
     double res = 1.0;
     for (int i = 2; i <= n; i++) res *= i;
     return res;
@@ -94,11 +100,9 @@ double CRRPricer::factorial(int n) {
 
 double CRRPricer::operator()(bool closed_form) {
     if (closed_form) {
-        // Formule fermée (Partie 2, Page 7) - Seulement pour Européennes
+        // Formule fermÃ©e (Partie 2, Page 7) - Seulement pour EuropÃ©ennes
         if (_option->isAmericanOption()) {
-             // On ne peut pas utiliser la formule fermée pour les américaines
-             // On bascule sur la méthode par arbre automatiquement ou on renvoie une erreur
-             // Ici je choisis de basculer sur compute() pour être robuste
+             // Protection : Impossible d'utiliser la formule fermÃ©e pour les amÃ©ricaines
              if (!_computed) compute();
              return _tree.getNode(0, 0);
         }
@@ -108,7 +112,7 @@ double CRRPricer::operator()(bool closed_form) {
         double sum = 0.0;
 
         for (int i = 0; i <= N; i++) {
-            // Calcul combinaison nCr
+            // Calcul combinaison nCr = N! / (i! * (N-i)!)
             double nCr = factorial(N) / (factorial(i) * factorial(N - i));
 
             double spot = _asset_price * std::pow(1 + _up, i) * std::pow(1 + _down, N - i);
@@ -120,8 +124,9 @@ double CRRPricer::operator()(bool closed_form) {
         return (1.0 / std::pow(1 + _interest_rate, N)) * sum;
     }
     else {
-        // Méthode par arbre (Partie 2 et 4)
+        // MÃ©thode par arbre (Partie 2 et 4)
         if (!_computed) compute();
         return _tree.getNode(0, 0);
     }
 }
+
