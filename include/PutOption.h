@@ -7,5 +7,8 @@ public:
     PutOption(double expiry, double strike);
 
     double payoff(double z) const override;
+
     optionType GetOptionType() const override;
+
+    virtual ~PutOption() = default;
 };
