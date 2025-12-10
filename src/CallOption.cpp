@@ -2,14 +2,17 @@
 #include <algorithm>
 
 CallOption::CallOption(double expiry, double strike)
-    : EuropeanVanillaOption(expiry, strike) {}
-
-double CallOption::payoff(double z)
+    : EuropeanVanillaOption(expiry, strike)
 {
-    return std::max(z - getStrike(), 0.0);
 }
 
-EuropeanVanillaOption::optionType CallOption::GetOptionType() const
+double CallOption::payoff(double z) const
 {
-    return CALL;
+    double K = getStrike();
+    return std::max(z - K, 0.0);
+}
+
+optionType CallOption::GetOptionType() const
+{
+    return optionType::CALL;
 }
