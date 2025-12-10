@@ -1,7 +1,6 @@
 #include "AmericanOption.h"
-#include <algorithm> // Nécessaire pour std::max
+#include <algorithm>
 
-// --- AmericanOption ---
 
 AmericanOption::AmericanOption(double expiry, double strike)
     : Option(expiry), _strike(strike) {
@@ -12,27 +11,23 @@ double AmericanOption::getStrike() const {
 }
 
 bool AmericanOption::isAmericanOption() {
-    return true; // C'est le marqueur important pour le CRRPricer
+    return true;
 }
-
-// --- AmericanCallOption ---
 
 AmericanCallOption::AmericanCallOption(double expiry, double strike)
     : AmericanOption(expiry, strike) {
 }
 
-double AmericanCallOption::payoff(double z) {
+double AmericanCallOption::payoff(double z) const {
     // Payoff d'un Call : Max(S - K, 0)
     return std::max(z - getStrike(), 0.0);
 }
-
-// --- AmericanPutOption ---
 
 AmericanPutOption::AmericanPutOption(double expiry, double strike)
     : AmericanOption(expiry, strike) {
 }
 
-double AmericanPutOption::payoff(double z) {
+double AmericanPutOption::payoff(double z) const {
     // Payoff d'un Put : Max(K - S, 0)
     return std::max(getStrike() - z, 0.0);
 }
