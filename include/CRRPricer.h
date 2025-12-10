@@ -15,11 +15,11 @@ private:
     BinaryTree<bool> _exercise_tree;    // Arbre d'exercice (Partie 4)
     bool _computed;
 
-    // Méthode utilitaire pour la factorielle
+    // MÃ©thode utilitaire pour la factorielle
     double factorial(int n);
 
 public:
-    // Constructeur Partie 2 (Paramètres CRR explicites)
+    // Constructeur Partie 2 (ParamÃ¨tres CRR explicites)
     CRRPricer(Option* option, int depth, double asset_price, double up, double down, double interest_rate);
 
     // Constructeur Partie 4 (Approximation Black-Scholes)
@@ -27,11 +27,14 @@ public:
 
     void compute();
 
-    // Accesseurs demandés
+    // Accesseurs demandÃ©s
     double get(int n, int i);
     bool getExercise(int n, int i);
 
-    // Opérateur de pricing (avec option formule fermée)
+    // OpÃ©rateur de pricing (avec option formule fermÃ©e)
     double operator()(bool closed_form = false);
 };
+
+
+
 
