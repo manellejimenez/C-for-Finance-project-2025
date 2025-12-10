@@ -2,17 +2,15 @@
 #include <iostream>
 #include <stdexcept>
 
-
 Option::Option() : _expiry(0.0) {}
-
 
 Option::Option(double e) : _expiry(e)
 {
+    if (e < 0) {
+        throw std::invalid_argument("L'échéance (expiry) ne peut pas être négative.");
+    }
     std::cout << "Une option a été créée" << std::endl;
 }
-
-Option::~Option() = default;
-
 
 double Option::getExpiry() const
 {
@@ -25,5 +23,5 @@ bool Option::isAmericanOption() {
 }
 
 Option::~Option() {
-    // Destructeur vide, mais nécessaire pour le nettoyage correct des classes filles
+    // Destructeur vide
 }
