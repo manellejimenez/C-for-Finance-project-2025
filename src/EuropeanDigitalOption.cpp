@@ -1,29 +1,28 @@
 #include "EuropeanDigitalOption.h"
 
 EuropeanDigitalOption::EuropeanDigitalOption(double expiry, double strike)
-    : Option(expiry), _strike(strike) {
-}
+    : Option(expiry), _strike(strike) {}
 
-double EuropeanDigitalOption::getStrike() const {
-    return _strike;
-}
+double EuropeanDigitalOption::getStrike() const { return _strike; }
 
-//Call Digital
 EuropeanDigitalCallOption::EuropeanDigitalCallOption(double expiry, double strike)
-    : EuropeanDigitalOption(expiry, strike) {
+    : EuropeanDigitalOption(expiry, strike) {}
+
+double EuropeanDigitalCallOption::payoff(double z) const {
+    return (z >= getStrike()) ? 1.0 : 0.0;
 }
 
-double EuropeanDigitalCallOption::payoff(double z) {
-    if (z >= getStrike()) return 1.0;
-    return 0.0;
+optionType EuropeanDigitalCallOption::GetOptionType() const {
+    return optionType::CALL;
 }
 
-//Put Digital
 EuropeanDigitalPutOption::EuropeanDigitalPutOption(double expiry, double strike)
-    : EuropeanDigitalOption(expiry, strike) {
+    : EuropeanDigitalOption(expiry, strike) {}
+
+double EuropeanDigitalPutOption::payoff(double z) const {
+    return (getStrike() >= z) ? 1.0 : 0.0;
 }
 
-double EuropeanDigitalPutOption::payoff(double z) {
-    if (z <= getStrike()) return 1.0;
-    return 0.0;
+optionType EuropeanDigitalPutOption::GetOptionType() const {
+    return optionType::PUT;
 }
