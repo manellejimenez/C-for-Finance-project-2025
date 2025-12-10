@@ -1,18 +1,18 @@
 #include "PutOption.h"
 #include <algorithm>
 
-
 PutOption::PutOption(double expiry, double strike)
-    : EuropeanVanillaOption(expiry, strike) {}
-
+    : EuropeanVanillaOption(expiry, strike)
+{
+}
 
 double PutOption::payoff(double z) const
 {
-    return std::max(getStrike() - z, 0.0);
+    double K = getStrike();
+    return std::max(K - z, 0.0);
 }
 
-
-EuropeanVanillaOption::optionType PutOption::GetOptionType() const
+optionType PutOption::GetOptionType() const
 {
-    return PUT;
+    return optionType::PUT;
 }
