@@ -12,25 +12,25 @@ public:
     // Getters
     double getStrike() const;
 
-    // Redéfinition de la méthode virtuelle pour dire que l'option est Américaine
+    // RedÃ©finition de la mÃ©thode virtuelle
     bool isAmericanOption() override;
 
     // Destructeur virtuel
-    virtual ~AmericanOption() {};
+    virtual ~AmericanOption() = default;
 };
 
 class AmericanCallOption : public AmericanOption {
 public:
     AmericanCallOption(double expiry, double strike);
 
-    // Implémentation du payoff
-    double payoff(double z) override;
+    double payoff(double z) const override;
 };
 
 class AmericanPutOption : public AmericanOption {
 public:
     AmericanPutOption(double expiry, double strike);
 
-    // Implémentation du payoff
-    double payoff(double z) override;
+    double payoff(double z) const override;
 };
+
+
